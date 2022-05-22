@@ -1,0 +1,102 @@
+
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Ejemplo</title>
+    <style type="text/css" media="screen">
+        .carousel {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+        }
+        #imagen {
+            width: 100%;
+            height: 400px;
+            background-size: cover;
+        }
+    </style>
+    <script>
+        window.onload = function () {
+            // Variables
+            const IMAGENES = [
+                '/img/uno.jpg',
+                'img/dos.jpg',
+                'img/tres.jpg',
+                'img/cuatro.jpg',
+                'img/cinco.jpg',
+                'img/seis.jpg',
+                'img/siete.jpg',
+                'img/ocho.jpg',
+                'img/nueve.jpg',
+                'img/diez.jpg',
+                'img/once.jpg',
+                'img/doce.jpg'
+            ];
+            
+            let posicionActual = 3;
+            
+            //cambia a la siguiente posicion
+
+            function pasarFoto() {
+                if(posicionActual >= IMAGENES.length - 1) {
+                    posicionActual = 0;
+                } else {
+                    posicionActual++;
+                }
+                renderizarImagen();
+            }
+
+            /**
+             * cambia a la anterior posicion
+             */
+            function retrocederFoto() {
+                if(posicionActual <= 0) {
+                    posicionActual = IMAGENES.length - 1;
+                } else {
+                    posicionActual--;
+                }
+                renderizarImagen();
+            }
+
+            /**
+             * Funcion que actualiza la imagen de imagen dependiendo de posicionActual
+             */
+            function renderizarImagen () {
+                //$imagen.style.backgroundImage = `url(${IMAGENES[posicionActual]})`;
+                //document.write(<img src="http://static.php.net/www.php.net/images/php.gif" />);
+                //$imagen.style.backgroundImage = IMAGENES[posicionActual];
+                //document.getElementById('imagen').innerHTML='<img src='+IMAGENES[posicionActual]+'/>';
+
+                var carta = document.getElementById("imagen");
+
+                //let nimagen=carta.createElement('img');
+                let nimagen=carta.insertAdjacentHTML("beforeend",'img');
+                
+                nimagen.createAttribute('src');
+                nimagen.setAttribute("src", IMAGENES[posicionActual]); 
+                
+            }       
+
+            // Eventos
+            document.getElementById('avanzar').addEventListener('click', pasarFoto);
+            document.getElementById('retroceder').addEventListener('click', retrocederFoto);
+
+           
+            // Iniciar
+            renderizarImagen();
+        } 
+    </script>
+</head>
+<body>
+    <div class="carousel">
+        
+        <div id="imagen"></div>
+        <button id="retroceder" onclick="avanzarfoto">Retroceder</button>
+        <div id="imagenes"></div>
+        <button id="avanzar" onclick="retrocederfoto">Avanzar</button>
+    </div>
+</body>
+</html>
+

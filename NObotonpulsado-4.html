@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Boton</title>
+    <style type="text/css" media="screen">
+    body{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        font-size: 20vw;
+      }
+    </style>
+    
+</head>
+<body>
+        <div class="boton">
+        <input type="button" id="pulsar" value="Botón pulsado 0 veces"/>
+    </div>
+        <div id="contador"></div>
+    
+        <script>
+            window.onload = reloj;
+                // Variables
+                let cuenta=0;
+                var totalTime = 10;
+                
+                function pulsaMas() {
+                    cuenta++;
+                    document.getElementById('pulsar').value='Boton pulsado '+cuenta +' veces';
+                }       
+    
+                //CRONOMETRO
+                
+                function reloj() {
+                    document.getElementById('contador').innerHTML = totalTime;
+                    document.getElementById('pulsar').value='Boton pulsado '+cuenta +' veces';
+                    if(totalTime==0){
+                        alert('Final');
+                    }else{
+                        totalTime-=1;
+                        setTimeout("reloj()",1000);
+                    }
+                }
+                
+                document.getElementById('pulsar').addEventListener('click', pulsaMas);
+        
+        </script>
+</body>
