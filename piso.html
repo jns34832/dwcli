@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script>
+            var arrayViviendas = [
+                new Vivienda(1,"Dispone de garaje","Marbella","Málaga",75000,4,1,"piso",["garaje","terraza"]),
+                new Vivienda(2,"Disponible ascensor","Motril","Granada",125000,3,2,"ático",["ascensor","terraza"]),
+                new Vivienda(1,"Sin amueblar","Utrera","Sevilla",35000,2,1,"estudio",["ascensor","calefacción"])];
+ 
+            var provincias = ["Málaga","Granada","Sevilla"];
+            var poblaciones = new Array(["Marbella","Torre del Mar"],["Motril","Loja"],["Utrera","Carmona"]);
+            var viviendas = [1,2,3,4,5];
+ 
+            function Vivienda(id,descripcion,localidad,provincia,precio,habitaciones,baños,tipo,caracteristicas){
+                console.log("x");
+                this.id = id;
+                this.descripcion = descripcion;
+                this.localidad = localidad;
+                this.provincia = provincia;
+                this.precio = precio;
+                this.habitaciones = habitaciones;
+                this.baños = baños;
+                this.tipo = tipo;
+                this.caracteristicas = caracteristicas;
+ 
+                this.inforPiso = function(){
+                   var descripcion = document.getElementById("descripcion");
+                   var localidad = document.getElementById("localidad");
+                   var provincia = document.getElementById("provincia");
+                   var precio = document.getElementById("precio");
+                   var habitaciones = document.getElementById("habitaciones");
+                   var baños = document.getElementById("baños");
+                   var tipo = document.getElementById("tipo");
+                   var caracteristicas = document.getElementById("caracteristicas");
+                   document.write(descripcion);
+                   document.write(localidad);
+                   document.write(provincia);
+                   document.write(precio);
+                   document.write(habitaciones);
+                   document.write(baños);
+                   document.write(tipo);
+                   document.write(caracteristicas);
+                }
+            }
+ 
+
+
+
+
+
+
+            Vivienda.ponerEnTabla=function() {
+                const table=document.querySelector("table");
+                const tr=document.createElement("tr");
+                const td=document.createElement("td");
+                const txt=document.createTextNode(this.id);
+                td.appendChild(txt);
+                tr.appendChild(td);
+                table.appendChild(tr);
+            }
+ 
+            window.onload=function() {
+                for (i of arrayViviendas) {
+                    i.ponerEnTabla();
+                }
+            }
+        </script>
+    </head>
+    
+
+
+<body>
+        <div>
+            <table style="width: 100%; height: 100%" border="1">
+                <tr>
+                    <th>Identificador</th>
+                    <th>Descripción</th>
+                    <th>Localidad</th>
+                    <th>Provincia</th>
+                    <th>Precio</th>
+                    <th>Habitaciones</th>
+                    <th>Baños</th>
+                    <th>Tipo</th>
+                    <th>Características</th>
+                </tr>
+                <tr>
+                    <td id="descripcion" class="descripcionpiso"></td>
+                    <td id="localidad" class="localidadpiso"></td>
+                    <td id="provincia" class="provinciapiso"></td>
+                    <td id="precio" class="preciopiso"></td>
+                    <td id="habitaciones" class="habipiso"></td>
+                    <td id="baños" class="bañospiso"></td>
+                    <td id="tipo" class="tipopiso"></td>
+                    <td id="caracteristicas" class="carapiso"></td>
+                </tr>
+            </table>
+        </div>
+    </body>
+</html>

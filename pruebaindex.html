@@ -1,0 +1,25 @@
+function vacunar(){
+    creartabla();
+    listarmascotas();
+    mascotas.forEach(element => {
+        element.mostrarTodo();
+    });
+}
+function creartabla(){
+    const tabla=document.createElement('table');
+    body.appendChild('tabla');
+    const th=document.createElement('th');
+    tabla.appendChild(th);
+    
+}
+function listarmascotas(){
+    const table=document.querySelector("table");
+    const tr=document.createElement("tr");
+    const td=document.createElement("td");
+    const txt=document.createTextNode(this.id);
+    for (i of mascotas) {
+        td.appendChild(txt);
+        tr.appendChild(td);
+        table.appendChild(tr);
+    }
+}

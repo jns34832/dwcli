@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+</head>
+<body>
+    <script>
+        tablavalores=["lunes", "Martes","Miercoles","Jueves", "Viernes","Sabado","Domingo"];
+        
+        let body=document.body;
+        var mitabla=document.createElement("table");
+        mitabla.style.border="1px";
+        var filas=document.createElement('tr');  //fila
+        mitabla.insertAdjacentElement("beforeend",filas);
+        tablavalores.forEach(element => {
+            var columna=document.createElement("td");
+            columna.style.border="1px solid";
+            columna.style.borderCollapse="collapse";
+            filas.insertAdjacentElement("beforeend",columna);
+            columna.insertAdjacentText("beforeend",element);
+        });
+       
+       
+        
+        body.insertAdjacentElement("beforeend",mitabla);
+        /* var tabla=document.getElementById("mitabla");
+        tabla.style.border=1; */
+    </script>
+    <!-- <table id="mitabla">
+
+    </table> -->
+</body>
+
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+    <script>
+        var mascotas=[];
+        
+            
+            class Mascota{
+                constructor (nombre, tipo, edad){ //el constructor se pone constructor delante
+                    this._nombre=nombre;
+                    this._edad=edad;
+                    this.tipo=tipo;
+                    this._baja=false;
+                    this._vacunas=[]
+                }
+            
+                
+                get nombre(){
+                    return this._nombre;
+                }
+                set nombre(nombre){
+                    this._nombre=nombre;
+                }
+                get tipo(){
+                    return this._tipo;
+                }
+                set tipo(tipo){
+                    this._tipo=tipo;
+                }
+                get edad(){
+                    return this._edad;
+                }
+                set edad(edad){
+                    this._tipo=tipo;
+                } 
+                
+                set baja(bajab){
+                    console.log('antes');
+                    this._baja=true;
+                    console.log(this._baja);
+                }
+                get baja(){
+                    return this._baja;
+                }
+            
+                mostrarTodo() { //muestra todas las propiedades del objeto
+                    
+                    for (let elem in this) {
+                        console.log(elem, " => ", this[elem]);
+                    }
+                }
+                // en los metodos, el nombre del metodo directamente
+            }
+        
+            function buscamascota(nomnumbrebuscar){ //buscar una mascota por nombre
+                const found = mascotas.find(element => element.nombre === nomnumbrebuscar);
+                console.log (mascotas);
+                return found;
+            }
+        
+             
+            function altamascota(nombre,tipo,edad){ //opcion 1. alta
+                var newnombre= prompt('nombre');
+                var newtipo=prompt('tipo');
+                var newedad=prompt('edad');
+                const newmascota=new Mascota(newnombre,newedad,newtipo); //creo el objeto
+                mascotas.push(newmascota); //lo añado al array
+                console.table(mascotas);
+            }
+            
+            function vacunar(){ //opcion 2. vacunar
+                
+                var nombrevacunar=prompt('nombre de la mascota a vacunar');
+                mascotavacunar=buscamascota(nombrevacunar);
+                console.log(mascotavacunar);
+        
+                fechavacuna=prompt('fecha de la vacuna');
+                nombrevacuna=prompt('vacuna a poner');
+                let nuevavacuna={fech_vacuna:fechavacuna, nom_vacuna:nombrevacuna};
+                mascotavacunar._vacunas.push(nuevavacuna);
+                console.log(mascotavacunar);
+                
+            }
+        
+            function darbaja(){ //opcion 3. baja
+                var nombredebaja=prompt('nombre de la mascota a dar de baja');
+                console.log(mascotas);
+                mascotabaja=buscamascota(nombredebaja);
+                mascotabaja.baja=true;
+                console.log(mascotas);
+            }
+            
+            
+            mascotas=[
+                    new Mascota('hera','perro',6),
+                    new Mascota('gala','perro',7),
+                    new Mascota('sella','gato',1),
+                    new Mascota('coco','gato',2)
+                ];
+            </script>
+            
+        
+                
+       
+       
+    
+</head>
+<body>
+    <h1>Menu</h1>
+    
+    <input value="1.- Altas"  type="button" onclick = "menu(1)"><br>
+    <input value="2.- Vacunar"  type="button" onclick = "menu(2)"><br>
+    <input value="3.- Bajas"  type="button" onclick = "menu(3)"><br>
+    
+    <script>
+        
+
+        function menu(opcion){
+            
+            switch (opcion) {
+            case 1:
+                altamascota();
+                break;
+            case 2:
+                vacunar();
+                break;
+            case 3:
+                darbaja();
+                break;
+            default:
+
+                break;
+            }    
+        } 
+        
+    </script>
+
+
+
+</body>
+</html>
