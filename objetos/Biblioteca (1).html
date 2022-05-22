@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=I2oOy2rYKRZ-2fqesu7GWhSU4u5zrj1AxRDECgMrRY5imO7n2Dbg1ZW9a33pxP16Fcz6ShzSkixOOSOonLP4imcJpDDCObGrb8MIYJQps21GUPVb3Qj5nFDLN8T4NFoVSvgjW0t-4gmlZXGHCydzqkanGqbD7wa0WAoDiJBnIZdmP1aSaVhBbh2MSGuAngntY4T7ynAP3AZzsMlQE_sliw" charset="UTF-8"></script><script> 
+    // CONSTRUCTORES-------------------------------------------------------------------------------------------------------------------
+        // AUTOR 
+        function Autor(numero, nombre){
+            this.numero=numero;
+            this.nombre=nombre;
+        }
+        
+        // LECTOR 
+        function Lector(dni, nombre, fechaAlta){
+            this.dni=dni;
+            this.nombre=nombre;
+            this.fechaAlta=fechaAlta;
+
+            
+        }
+
+        // PUBLICACION
+        function Publicacion(isbn,titulo,autores=[]){  //inicializando asi autores, si no le llega nada lo inicializa con un array vacio
+            this.isbn=isbn;
+            this.titulo=titulo;
+            this.autores=autores;
+
+            this.nuevoAutor = (numero,nombre)=>{
+                let autor=new Autor(numero, nombre); // lo añado al objeto Autor
+                this.autores.push(autor); // lo añado a los autores de la publicacion
+                console.log ('Autor añadido:' +numero+" "+nombre);
+                return autor; // para que lo guarde en plublicacion
+            }
+        }
+
+        // EJEMPLAR
+        function Ejemplar (signatura, publicacion, ubicacion, disponible=true){
+            this.signatura=signatura;
+            this.publicacion=publicacion;
+            this.ubicacion=ubicacion;
+            this.disponible=disponible;
+
+            this.ficha=(signatura)=>{
+                console.table(this.signatura+this.publicacion.titulo+this.publicacion.autor+this.ubicacion+this.disponible);
+            };
+        }
+        
+        // PRESTAMO
+        function Prestamo(ejemplar, lector, fechaInicio=Date(), fechaFinal=Date()+7){
+            this.ejemplar=ejemplar;
+            this.publicacion=publicacion;
+            this.fechaInicio=fechaInicio;
+            this.fechaFinal=fechaFinal;
+        }
+
+        //BIBLIOTECA
+        function Biblioteca (nombre, publicaciones=[], ejemplares=[], lectores=[], prestamos=[]){
+            this.nombre=nombre;
+            this.publicaciones=publicaciones;
+            this.ejemplares=ejemplares;
+            this.lectores=lectores;
+            this.prestamos=prestamos;
+
+            this.nuevaPublicacion= (isbn,titulo)=> {
+                let publicacion=new Publicacion(isbn,titulo);
+                this.publicaciones.push(publicacion);
+                return publicacion; //para que lo devuelva a publicacion
+            };
+
+            this.nuevoEjemplar=(signatura,publicacion,ubicacion,disponible)=>{
+                let ejemplar=new Ejemplar(signatura,publicacion,ubicacion,disponible);
+                this.ejemplares.push(ejemplar);
+            }
+
+            this.listarEjemplares=(ejemplar=this.ejemplares)=>{
+                ejemplar.forEach(elemento => {
+                    //console.log(elemento); //si lo ponemos así no sale el contenido de publicacion
+                    console.table (elemento.signatura,elemento.publicacion.isbn,elemento.publicacion.titulo, elemento.ubicacion,elemento.disponible);       
+                }); 
+            }
+
+            this.ejemplaresDisponiblesTitulo=(tituloBuscar)=>{ //llega el titulo
+                let disponibletitulo=this.ejemplares.filter(ejemplar=>ejemplar.publicacion.titulo===tituloBuscar && ejemplar.disponible===true); //del array ejemplares filtramos los que coinciden en titulo y estan disponibles
+                return disponibletitulo; //devolvemos el resultado de filtrar los ejemplares
+            }
+
+            this.seleccionarEjemplar=(signatura)=>{ //llega la signatura
+                let ejemplarbuscar=this.ejemplares.find(ejemplar=>(ejemplar.signatura===signatura)); //buscamos en el array ejemplares el ejemplar donde coincidan las signaturas
+                return ejemplarbuscar;
+            }
+
+            this.nuevoLector=(dni,nombre)=>{
+                let lector=new Lector(dni,nombre,Date())
+                console.log('Lector añadido: '+dni+" "+nombre);
+                this.lectores.push(lector);
+                return lector;
+            }
+
+            this.listarLectores=(lectores=this.lectores)=>{
+                lectores.forEach(elemento => {
+                    console.log(elemento);
+                    //console.table (elemento.dni,elemento.nombre,elemento.fechaAlta);       
+                });
+            }
+
+            this.nuevoPrestamo=(ejemplar,lector)=>{
+                ejemplar.disponible=false;
+                let newPrestamo=new Prestamo(ejemplar,lector);
+                this.prestamos.push(newPrestamo);
+                return newPrestamo;
+            }
+
+            this.procesaPrestamo=(titulo,lector)=>{
+                let ejemplardisponible=this.ejemplares.find(ejemplar=>ejemplar.publicacion.titulo===titulo && ejemplar.disponible===true);
+                if (ejemplardisponible===undefined){
+                    console.log('No hay ningun ejemplar de '+titulo+' disponible');
+                } else{
+                    newPrestamo=this.nuevoPrestamo(ejemplardisponible,lector);
+                    console.log('prestamo procesado: '+ ejemplardisponible.publicacion.titulo+" ("+ejemplardisponible.signatura+') '+" a "+lector.nombre);
+                }
+            }
+
+            this.listarPrestamos=(buscaejemplar)=>{
+                let ejemplarbuscar=this.prestamos.filter(prestamo=>prestamo.ejemplar===buscaejemplar); //del array ejemplares filtramos
+                ejemplarbuscar.forEach(elemento => {
+                    console.log (elemento.ejemplar.signatura,elemento.ejemplar.publicacion.titulo,elemento.lector,elemento.fechaInicio, elemento.fechaFinal);       
+                }); 
+            }
+
+            this.devuelvePrestamo=(signatura)=>{
+                let ejemplarprestado=this.prestamos.find(prestamo=>prestamo.ejemplar.signatura===signatura);
+                if (ejemplarprestado===undefined){
+                    console.log('Ejemplar '+signatura+' no encontrado');
+                }else{
+                    ejemplarprestado.ejemplar.disponible=true;
+                    console.log('Ejemplar '+signatura+' devuelto');
+                }
+            }
+        }
+
+    // DATOS - EJEMPLO DE USO QUE NOS DIO
+        console.log('Biblioteca: Gijon--------------------------------------------------------');
+        const biblioGijon = new Biblioteca("Gijón");
+        console.log('Añadiendo publicacion----------------------------------------------------');
+        let publicacion = biblioGijon.nuevaPublicacion('0131103628','The C Programming Language');
+        console.log(publicacion);
+        console.log ('Añadiendo autores a la publicacion');
+        publicacion.nuevoAutor(1, 'Briwan W. Kernighan');
+        publicacion.nuevoAutor(2, 'Dennis M. Ritchie');
+        console.log (publicacion);
+        console.log('Añadiendo ejemplares-----------------------------------------------------');
+        biblioGijon.nuevoEjemplar("C/12", publicacion, "b12-n");
+        biblioGijon.nuevoEjemplar("C/13", publicacion, "b13-n");
+        biblioGijon.nuevoEjemplar("C/14", publicacion, "b14-n");
+        biblioGijon.nuevoEjemplar("C/15", publicacion, "b15-n");
+        publicacion = biblioGijon.nuevaPublicacion('97818479411007', 'Scrum: The Art of Doing Twice the Work in Half the Time', ['Jeff Shuterland']);
+        biblioGijon.nuevoEjemplar("A/08", publicacion, "a08-x");
+        biblioGijon.nuevoEjemplar("C/09", publicacion, "a09-z");
+        console.log('Todos los ejemplares-----------------------------------------------------');
+        biblioGijon.listarEjemplares();
+        console.log('Ejemplares disponibles de un titulo---------------------------------------');
+        biblioGijon.listarEjemplares(biblioGijon.ejemplaresDisponiblesTitulo('The C Programming Language'));
+        console.log('Ejemplar de una signatura-------------------------------------------------');
+        let ejemplar = biblioGijon.seleccionarEjemplar('C/12');
+        console.log(ejemplar);
+        console.log('Ficha de un ejemplar------------------------------------------------------');
+        ejemplar.ficha();
+        console.log('Añadiendo lectores--------------------------------------------------------');
+        const maria = biblioGijon.nuevoLector("aaaaaaaaa", 'María Garrido');
+        const pedro = biblioGijon.nuevoLector("bbbbbbbbb", 'Pedro Pérez');
+        const juan = biblioGijon.nuevoLector("ccccccccc", 'Juan Gómez');
+        const luisa = biblioGijon.nuevoLector("dddddddd", 'Luisa Fernández');
+        console.log('Todos los lectores--------------------------------------------------------');
+        biblioGijon.listarLectores();
+        console.log('Procesar prestamos--------------------------------------------------------');
+        biblioGijon.procesaPrestamo('The C Programming Language', 'maria');
+        console.log(biblioGijon.prestamos);
+
+        console.log('Listar prestamos de ejemplar-----------------------------------------------');
+        biblioGijon.listarPrestamos(ejemplar);
+
+        console.log('Listar Ejemplares---------------------------------------------------------');
+        biblioGijon.listarEjemplares();
+
+        console.log('Procesando prestamos-------------------------------------------------------');
+        biblioGijon.procesaPrestamo('The C Programming Language', juan);
+        biblioGijon.procesaPrestamo('Scrum: The Art of Doing Twice the Work in Half the Time', juan);
+        biblioGijon.procesaPrestamo('Scrum: The Art of Doing Twice the Work in Half the Time', luisa);
+        biblioGijon.procesaPrestamo('Scrum: The Art of Doing Twice the Work in Half the Time', pedro);
+        biblioGijon.procesaPrestamo('The C Programming Language', pedro);
+        
+        console.log('Devolviendo prestamos--------------------------------------------------------');
+        biblioGijon.devuelvePrestamo('C/14');
+        biblioGijon.devuelvePrestamo('C/15');
+        biblioGijon.devuelvePrestamo('C');
+    </script>
+    
+</head>
+<body>
+    
+</body>
+</html>

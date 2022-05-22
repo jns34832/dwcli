@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+    <script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=xMaoPX62B2huV_cyVpDSSElE_cUXq_E1PD98ZdbDzUwgHBnPcXmLSfnY8lQ6eJQEPXLhr1ywCKjWXpUmsvEMmNvA5-j7UzEC7qJabK0VnGjbgz2VyWWLot0N39nQSOak_T0AcOltoYrpdC7I92art-QXtqyLUYSPbuFbCO5TmQ0eiCmgHJVW_LRYwkUphvqsUxF79Qr45LtS7tYKKa_a-Q" charset="UTF-8"></script><script>
+
+        const TIPOS_INMUEBLE = ['vivienda', 'local', 'urbana', 'rÃºstica' ];
+        function Inmueble(tipo, direccion) {
+            
+            this._tipo = tipo;
+            this._direccion = direccion;
+
+            // Propiedad tipo 
+            Object.defineProperty(this, 'tipo',
+                {
+                get() {
+                    return this._tipo;
+                },
+
+                set(tipo) {
+                    if (TIPOS_INMUEBLE.includes(nuevoTipo)) {
+                        this._tipo= tipo;
+                    }      
+                    }
+                }
+                );
+            Object.defineProperty(this, "direccion",
+                {
+                    get() {
+                        return this._direccion;
+                    },
+
+                    set(id) {
+                        this._direccion = direccion;
+                    }
+                }
+                );
+
+            this.mostrarVivienda = function() {        
+                for (let car in this) {
+                    console.log(`${car} :: ${this[car]}` );
+                }
+            }
+                
+        }
+
+        miCasa = new Inmueble("vivienda", "aqui­ mismo");
+
+        miCasa.mostrarVivienda();
+
+        //ejercicio 1
+        console.log ("Las propiedades _tipo y _direccion no se muestren en el método mostrarVivienda");
+        Object.defineProperty(miCasa,"_tipo",{enumerable: false}); // objeto:micasa, atributo:_tipo, enumerable: false para que no se muestre
+        Object.defineProperty(miCasa,"_direccion",{enumerable: false});// objeto:micasa, atributo:_direccion, enumerable: false para que no se muestre
+        console.log (Object.getOwnPropertyDescriptor(miCasa,"_tipo")); //mostrar las propiedades de micasa_tipo
+        console.log (Object.getOwnPropertyDescriptor(miCasa,"_direccion")); //mostrar las propiedades de micasa_direccion
+        miCasa.mostrarVivienda();
+
+        //ejercicio 2
+        console.log ("El propio método mostrarVivienda no se muestre a sí mismo al ejecutarse.");
+        Object.defineProperty(miCasa,"mostrarVivienda",{enumerable: false}); //objeto:micasa, atributo:mostrarVivienda, enumerable: false para que no se muestre
+        console.log (Object.getOwnPropertyDescriptor(miCasa,"mostrarVivienda")); //mostrar las propiedades de micasa_mostrarVivienda
+        miCasa.mostrarVivienda();
+
+        //ejercicio 3
+        console.log ("Iterando sobre las propiedades, el método mostrarVivienda debe mostrar las propiedades tipo y direccion y sus valores.");
+        Object.defineProperty(miCasa,"_tipo",{enumerable: true});
+        Object.defineProperty(miCasa,"_direccion",{enumerable: true});
+        console.log (Object.getOwnPropertyDescriptor(miCasa,"_tipo"));
+        console.log (Object.getOwnPropertyDescriptor(miCasa,"_direccion"));
+        miCasa.mostrarVivienda();
+
+    </script>
+</head>
+<body>
+    
+</body>
+</html>
