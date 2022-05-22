@@ -1,7 +1,7 @@
 /*
 
 Herencia
-
+ 
 Permite extender las propiedades y métodos de una clase a otra
 heredada.
 
