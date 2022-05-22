@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+    <script>
+        
+        class Clinica{
+            constructor (nombre){
+                this.nombre=nombre;
+                this.mascotas=[];
+            }
+
+            buscamascota(nombrebuscar){ //buscar una mascota por nombre
+                const found = this.mascotas.find(element => element.nombre === nombrebuscar);
+                return found;
+            }
+
+            nuevaMascota(nombreclinica, nombre, tipo) {
+                    let mascota =  this.mascotas.push(new Mascota(this.nombre, nombre, tipo));
+                    return mascota;
+            }
+
+            darbaja(mascotabaja){
+                console.log(mascotabaja);
+                if (mascotabaja.baja){
+                    document.getElementById("mensajes").innerHTML='El '+mascotabaja.tipo+' llamado '+ mascotabaja.nombre+' ya está dado de baja';
+                }else{
+                    document.getElementById("mensajes").innerHTML='El '+mascotabaja.tipo+' llamado '+ mascotabaja.nombre+' ha sido dado de baja';
+                    mascotabaja.baja=true;
+                }
+            }
+
+            vacunar(mascotavacunar){ 
+                let fechavacuna=prompt('fecha de la vacuna');
+                let nombrevacuna=prompt('vacuna a poner');
+                //let nuevavacuna={fech_vacuna:fechavacuna, nom_vacuna:nombrevacuna}; //creo el objeto vacuna, así no hace falta crear la clase
+                let nuevavacuna=new Vacuna(nombrevacuna,fechavacuna); //otra forma de crear el objeto vacuna, necesita tener la clase creada
+                mascotavacunar.vacunas.push(nuevavacuna);
+                console.log(mascotavacunar);
+            }
+        }
+        
+        class Mascota{
+            constructor (nombreclinica, nombre, tipo){ //el constructor se pone constructor delante
+                this.nombreclinica=nombreclinica;
+                this.nombre=nombre;
+                this.tipo=tipo;
+                this.baja=false;
+                this.vacunas=[]
+            }
+        }
+
+        class Vacuna{
+            constructor (nom_vacuna,fech_vacuna){
+                this.nom_vacuna=nom_vacuna;
+                this.fech_vacuna=fech_vacuna;
+            }
+        }
+
+        function altamascota(){ //opcion 1. alta
+            var newnombre= prompt('nombre');
+            var newtipo=prompt('tipo');
+            aviles.nuevaMascota(this.nombre,newnombre,newtipo);
+            document.getElementById("mensajes").innerHTML='El '+newtipo+' llamado '+ newnombre+' ha sido dado de alta';
+            mostrarmascotas();
+        }
+
+        function ponervacuna(nombrevacunar){ //opcion 2. vacunar
+            //var nombrevacunar=prompt('nombre de la mascota a vacunar');
+            mascotavacunar=aviles.buscamascota(nombrevacunar);
+            console.log(mascotavacunar);
+            aviles.vacunar(mascotavacunar);
+            mostrarmascotas();
+        }
+        
+        function mascotadarbaja(nombredebaja){ //opcion 3. baja
+            //var nombredebaja=prompt('nombre de la mascota a dar de baja');
+            mascotabaja=aviles.buscamascota(nombredebaja);
+            aviles.darbaja(mascotabaja);
+            mostrarmascotas();
+        }
+            
+        let aviles=new Clinica("Aviles");
+        aviles.mascotas=[
+                new Mascota('Aviles','hera','perro',6),
+                new Mascota('Aviles','gala','perro',7),
+                new Mascota('Aviles','sella','gato',1),
+                new Mascota('Aviles','coco','gato',2)
+            ];
+    </script>
+            
+</head>
+<body onload="mostrarmascotas()">
+    <div id="muestramenu">
+        <h1>Menu</h1>
+        
+        <input value="Altas"  type="button" onclick = "altamascota()">
+        <!-- <input value="Vacunar"  type="button" onclick = "ponervacuna()"><br>
+        <input value="Bajas"  type="button" onclick = "mascotadarbaja()"><br> -->
+        <input value="Listar"  type="button" onclick = "mostrarmascotas()"><br><br>
+        
+    </div>
+    <div id="mensajes"></div>
+    <div id="tablamascotas"></div>
+    <table style="border: 5px collapse;"></table>
+
+
+    <script> //script para mostrar mascotas
+        
+        function mostrarmascotas(){ //tabla de mascotas
+            var filas=aviles.mascotas.length;
+            //var tabla="<table border=1>";
+            var tabla='<table style="border: 2px solid;">';
+            tabla+="<tr>"; //encabezado de la tabla  
+            for (let elem in aviles.mascotas[0]) {
+                tabla+="<td>"+elem+"</td>";
+            }
+            tabla+="</tr>";//----------------------
+
+            for(i=0;i<filas;i++){ // cuerpo de la tabla, para cada mascota
+                tabla+="<tr>";
+                for (let elem in aviles.mascotas[i]) { //recorrer las propiedades del objeto
+                    if (elem!="vacunas")
+                        tabla+="<td>"+aviles.mascotas[i][elem]+ "</td>";
+                    else{
+                        tabla+='<td>'
+                        var tablavacunas='<table style="border: 2px solid;">';
+                        aviles.mascotas[i].vacunas.forEach(elemento => {
+                            tablavacunas+="<tr>";
+                            for (const propiedad in elemento) {
+                                tablavacunas+=('<td>'+elemento[propiedad]+'</td>');
+                                }
+                            tablavacunas+='</tr>';
+                        });
+                        tablavacunas+='</table>';
+                        tabla+=tablavacunas;
+                        tabla+='</td>';
+                        }
+                }
+            
+            tabla+='<td><input value="Vacunar"  type="button" id='+i+'  onclick = "ponervacuna(aviles.mascotas['+i+'].nombre)"></td>'+
+                    '<td><input value="Bajas"  type="button" onclick = "mascotadarbaja(aviles.mascotas['+i+'].nombre)"></td>';
+            tabla+="</tr>";
+            }
+            tabla+="</table>";
+            document.getElementById("tablamascotas").innerHTML=tabla;
+        }
+    </script>
+</body>
+</html>
